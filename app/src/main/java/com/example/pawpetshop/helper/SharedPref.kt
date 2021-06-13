@@ -8,9 +8,9 @@ import android.content.SharedPreferences
 class SharedPref(activity: Activity) {
 
     val login = "login"
-//    val nama = "nama"
-//    val phone = "phone"
-//    val email = "email"
+    val nama = "nama"
+    val phone = "phone"
+    val email = "email"
 
 //    val user = "user"
 
@@ -39,13 +39,13 @@ class SharedPref(activity: Activity) {
 //        return Gson().fromJson<User>(data, User::class.java)
 //    }
 //
-//    fun setString(key: String, vlaue: String) {
-//        sp.edit().putString(key, vlaue).apply()
-//    }
-//
-//    fun getString(key: String): String {
-//        return sp.getString(key, "")!!
-//    }
+    fun setString(key: String, vlaue: String) {
+        sp.edit().putString(key, vlaue).apply()
+    }
+
+    fun getString(key: String): String {
+        return sp.getString(key, "")!!
+    }
 //
 //    fun clear(){
 //        sp.edit().clear().apply()

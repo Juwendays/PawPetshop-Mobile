@@ -21,17 +21,28 @@ class AkunFragment : Fragment(){
 
 //        Inflater the layout for this fragment
         val view: View = inflater.inflate(R.layout.fragment_akun, container, false)
-        btnLogout = view.findViewById(R.id.btn_logout)
+//        btnLogout = view.findViewById(R.id.btn_logout)
+        init(view)
 
         s = SharedPref(activity!!)
 
+        // Perintah tomblo logout
         btnLogout.setOnClickListener {
             s.setStatusLogin(false)
         }
 
+        setData()
         return view
     }
 
+    // Mengambil data untuk dimunculkan akun
+    fun setData() {
+        tvNama.text = s.getString(s.nama)
+        tvEmail.text = s.getString(s.email)
+        tvPhone.text = s.getString(s.phone)
+    }
+
+    // Menampilkan data user di akun
     private fun init(view: View) {
         btnLogout = view.findViewById(R.id.btn_logout)
         tvNama = view.findViewById(R.id.tv_nama)
