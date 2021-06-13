@@ -65,7 +65,7 @@ class RegisterActivity: AppCompatActivity() {
         }
 
         pb.visibility = View.VISIBLE
-        ApiConfig.instanceRetrofit.register(edt_nama.text.toString(), edt_email.text.toString(), edt_password.text.toString()).enqueue(object :
+        ApiConfig.instanceRetrofit.register(edt_nama.text.toString(), edt_email.text.toString(),edt_phone.text.toString(), edt_password.text.toString()).enqueue(object :
             Callback<ResponModel> {
 
             override fun onFailure(call: Call<ResponModel>, t: Throwable) {
