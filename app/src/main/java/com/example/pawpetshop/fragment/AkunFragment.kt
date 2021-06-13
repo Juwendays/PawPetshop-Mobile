@@ -13,9 +13,9 @@ class AkunFragment : Fragment(){
 
     lateinit var s:SharedPref
     lateinit var btnLogout: TextView
-//    lateinit var tvNama: TextView
-//    lateinit var tvEmail: TextView
-//    lateinit var tvPhone: TextView
+    lateinit var tvNama: TextView
+    lateinit var tvEmail: TextView
+    lateinit var tvPhone: TextView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?{
 
@@ -32,10 +32,10 @@ class AkunFragment : Fragment(){
         return view
     }
 
-//    private fun init(view: View) {
-//        btnLogout = view.findViewById(R.id.btn_logout)
-//        tvNama = view.findViewById(R.id.tv_nama)
-//        tvEmail = view.findViewById(R.id.tv_email)
-//        tvPhone = view.findViewById(R.id.tv_phone)
-//    }
+    private fun init(view: View) {
+        btnLogout = view.findViewById(R.id.btn_logout)
+        tvNama = view.findViewById(R.id.tv_nama)
+        tvEmail = view.findViewById(R.id.tv_email)
+        tvPhone = view.findViewById(R.id.tv_phone)
+    }
 }
