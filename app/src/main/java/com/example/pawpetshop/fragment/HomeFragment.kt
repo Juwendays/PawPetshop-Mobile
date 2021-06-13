@@ -1,17 +1,25 @@
 package com.example.paw_petshop.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
+import com.example.pawpetshop.MainActivity
 import com.example.pawpetshop.R
 import com.example.pawpetshop.adapter.AdapterProduk
 import com.example.pawpetshop.adapter.AdapterSlider
+import com.example.pawpetshop.app.ApiConfig
 import com.example.pawpetshop.model.Produk
+import com.example.pawpetshop.model.ResponModel
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class HomeFragment : Fragment(){
 
@@ -23,130 +31,163 @@ class HomeFragment : Fragment(){
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         val view: View = inflater.inflate(R.layout.fragment_home,container, false)
-
-        vpSlider = view.findViewById(R.id.vp_slider)
-        rvProduk = view.findViewById(R.id.rv_produk)
-        rvProdukTerlaris = view.findViewById(R.id.rv_produkTerlasir)
-        rvFood = view.findViewById(R.id.rv_food)
-
-        // menampilkan produk horizontal
-        val layoutManager = LinearLayoutManager(activity)
-        layoutManager.orientation = LinearLayoutManager.HORIZONTAL
-
-        val layoutManager2 = LinearLayoutManager(activity)
-        layoutManager2.orientation = LinearLayoutManager.HORIZONTAL
-
-        val layoutManager3 = LinearLayoutManager(activity)
-        layoutManager3.orientation = LinearLayoutManager.HORIZONTAL
-
-        val arrSlider = ArrayList<Int>()
-        arrSlider.add(R.drawable.petshop)
-        arrSlider.add(R.drawable.logopetshop)
-        arrSlider.add(R.drawable.slider3)
-
-        val adapterSlider = AdapterSlider(arrSlider, activity)
-        vpSlider.adapter = adapterSlider
-
-        rvProduk.adapter = AdapterProduk(arrProduk)
-        rvProduk.layoutManager = layoutManager
-
-        rvProdukTerlaris.adapter = AdapterProduk(arrProdukTerlaris)
-        rvProdukTerlaris.layoutManager = layoutManager2
-
-        rvFood.adapter = AdapterProduk(arrFood)
-        rvFood.layoutManager = layoutManager3
+        init(view)
+        getProduk()
 
         return view
     }
 
-        val arrProduk: ArrayList<Produk>get(){
-            val arr = ArrayList<Produk>()
-            val p1 = Produk()
-            p1.nama = "Whiskas Food"
-            p1.harga = "Rp.60.000"
-            p1.gambar = R.drawable.food
+        //menampilkan data product
+        fun displayProduk(){
 
-            val p2 = Produk()
-            p2.nama = "Royal Canin"
-            p2.harga = "Rp.50.000"
-            p2.gambar = R.drawable.food2
+            // menampilkan produk horizontal
+            val layoutManager = LinearLayoutManager(activity)
+            layoutManager.orientation = LinearLayoutManager.HORIZONTAL
 
-            val p3 = Produk()
-            p3.nama = "Royal Canin Extra"
-            p3.harga = "Rp.50.000"
-            p3.gambar = R.drawable.food
+            val layoutManager2 = LinearLayoutManager(activity)
+            layoutManager2.orientation = LinearLayoutManager.HORIZONTAL
 
-            val p4 = Produk()
-            p4.nama = "Whiskas food"
-            p4.harga = "Rp.40.000"
-            p4.gambar = R.drawable.food2
+            val layoutManager3 = LinearLayoutManager(activity)
+            layoutManager3.orientation = LinearLayoutManager.HORIZONTAL
 
-            arr.add(p1)
-            arr.add(p2)
-            arr.add(p3)
-            arr.add(p4)
+            val arrSlider = ArrayList<Int>()
+            arrSlider.add(R.drawable.petshop)
+            arrSlider.add(R.drawable.logopetshop)
+            arrSlider.add(R.drawable.slider3)
 
-            return arr
+            val adapterSlider = AdapterSlider(arrSlider, activity)
+            vpSlider.adapter = adapterSlider
+
+            rvProduk.adapter = AdapterProduk(listProduk)
+            rvProduk.layoutManager = layoutManager
+//
+//            rvProdukTerlaris.adapter = AdapterProduk(arrProdukTerlaris)
+//            rvProdukTerlaris.layoutManager = layoutManager2
+//
+//            rvFood.adapter = AdapterProduk(arrFood)
+//            rvFood.layoutManager = layoutManager3
+
         }
 
-    val arrProdukTerlaris: ArrayList<Produk>get(){
-        val arr = ArrayList<Produk>()
-        val p1 = Produk()
-        p1.nama = "Whiskas Food"
-        p1.harga = "Rp.60.000"
-        p1.gambar = R.drawable.food
+        //Membuat array baru
+        private var listProduk: ArrayList<Produk> = ArrayList()
 
-        val p2 = Produk()
-        p2.nama = "Royal Canin"
-        p2.harga = "Rp.50.000"
-        p2.gambar = R.drawable.food2
+        //Menampilkan alert
+        fun getProduk(){
+            ApiConfig.instanceRetrofit.getProduk().enqueue(object :
+                Callback<ResponModel> {
 
-        val p3 = Produk()
-        p3.nama = "Royal Canin Extra"
-        p3.harga = "Rp.50.000"
-        p3.gambar = R.drawable.food
+                override fun onFailure(call: Call<ResponModel>, t: Throwable) {
 
-        val p4 = Produk()
-        p4.nama = "Whiskas food"
-        p4.harga = "Rp.40.000"
-        p4.gambar = R.drawable.food2
+                }
 
-        arr.add(p1)
-        arr.add(p2)
-        arr.add(p3)
-        arr.add(p4)
-
-        return arr
+                override fun onResponse(call: Call<ResponModel>, response: Response<ResponModel>) {
+                    val respon = response.body()!!
+                    if (respon.success == 1) {
+                        listProduk = respon.produks
+                        displayProduk()
+                    }
+                }
+            })
     }
 
-    val arrFood: ArrayList<Produk>get(){
-        val arr = ArrayList<Produk>()
-        val p1 = Produk()
-        p1.nama = "Whiskas Food"
-        p1.harga = "Rp.60.000"
-        p1.gambar = R.drawable.food
-
-        val p2 = Produk()
-        p2.nama = "Royal Canin"
-        p2.harga = "Rp.50.000"
-        p2.gambar = R.drawable.food2
-
-        val p3 = Produk()
-        p3.nama = "Royal Canin Extra"
-        p3.harga = "Rp.50.000"
-        p3.gambar = R.drawable.food
-
-        val p4 = Produk()
-        p4.nama = "Whiskas food"
-        p4.harga = "Rp.40.000"
-        p4.gambar = R.drawable.food2
-
-        arr.add(p1)
-        arr.add(p2)
-        arr.add(p3)
-        arr.add(p4)
-
-        return arr
+    //Pemanggilan agar tidak tidak oncreate semua
+    fun init(view: View){
+        vpSlider = view.findViewById(R.id.vp_slider)
+        rvProduk = view.findViewById(R.id.rv_produk)
+        rvProdukTerlaris = view.findViewById(R.id.rv_produkTerlasir)
+        rvFood = view.findViewById(R.id.rv_food)
     }
+
+
+//    val arrProduk: ArrayList<Produk>get(){
+//            val arr = ArrayList<Produk>()
+//            val p1 = Produk()
+//            p1.nama = "Whiskas Food"
+//            p1.harga = "Rp.60.000"
+//            p1.gambar = R.drawable.food
+//
+//            val p2 = Produk()
+//            p2.nama = "Royal Canin"
+//            p2.harga = "Rp.50.000"
+//            p2.gambar = R.drawable.food2
+//
+//            val p3 = Produk()
+//            p3.nama = "Royal Canin Extra"
+//            p3.harga = "Rp.50.000"
+//            p3.gambar = R.drawable.food
+//
+//            val p4 = Produk()
+//            p4.nama = "Whiskas food"
+//            p4.harga = "Rp.40.000"
+//            p4.gambar = R.drawable.food2
+//
+//            arr.add(p1)
+//            arr.add(p2)
+//            arr.add(p3)
+//            arr.add(p4)
+//
+//            return arr
+//        }
+//
+//    val arrProdukTerlaris: ArrayList<Produk>get(){
+//        val arr = ArrayList<Produk>()
+//        val p1 = Produk()
+//        p1.nama = "Whiskas Food"
+//        p1.harga = "Rp.60.000"
+//        p1.gambar = R.drawable.food
+//
+//        val p2 = Produk()
+//        p2.nama = "Royal Canin"
+//        p2.harga = "Rp.50.000"
+//        p2.gambar = R.drawable.food2
+//
+//        val p3 = Produk()
+//        p3.nama = "Royal Canin Extra"
+//        p3.harga = "Rp.50.000"
+//        p3.gambar = R.drawable.food
+//
+//        val p4 = Produk()
+//        p4.nama = "Whiskas food"
+//        p4.harga = "Rp.40.000"
+//        p4.gambar = R.drawable.food2
+//
+//        arr.add(p1)
+//        arr.add(p2)
+//        arr.add(p3)
+//        arr.add(p4)
+//
+//        return arr
+//    }
+//
+//    val arrFood: ArrayList<Produk>get(){
+//        val arr = ArrayList<Produk>()
+//        val p1 = Produk()
+//        p1.nama = "Whiskas Food"
+//        p1.harga = "Rp.60.000"
+//        p1.gambar = R.drawable.food
+//
+//        val p2 = Produk()
+//        p2.nama = "Royal Canin"
+//        p2.harga = "Rp.50.000"
+//        p2.gambar = R.drawable.food2
+//
+//        val p3 = Produk()
+//        p3.nama = "Royal Canin Extra"
+//        p3.harga = "Rp.50.000"
+//        p3.gambar = R.drawable.food
+//
+//        val p4 = Produk()
+//        p4.nama = "Whiskas food"
+//        p4.harga = "Rp.40.000"
+//        p4.gambar = R.drawable.food2
+//
+//        arr.add(p1)
+//        arr.add(p2)
+//        arr.add(p3)
+//        arr.add(p4)
+//
+//        return arr
+//    }
 
 }

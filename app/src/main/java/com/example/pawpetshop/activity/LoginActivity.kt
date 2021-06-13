@@ -41,7 +41,7 @@ class LoginActivity : AppCompatActivity() {
             return
         }
 
-//        pb.visibility = View.VISIBLE
+        pb.visibility = View.VISIBLE
         ApiConfig.instanceRetrofit.login(edt_email.text.toString(), edt_password.text.toString()).enqueue(object :
             Callback<ResponModel> {
 

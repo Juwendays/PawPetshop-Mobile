@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pawpetshop.R
 import com.example.pawpetshop.model.Produk
+import com.squareup.picasso.Picasso
 import java.text.NumberFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -30,9 +31,19 @@ class AdapterProduk(var data: ArrayList<Produk>) : RecyclerView.Adapter<AdapterP
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        holder.tvNama.text = data[position].nama
-        holder.tvHarga.text = data[position].harga
-        holder.imgProduk.setImageResource(data[position].gambar)
+        holder.tvNama.text = data[position].name
+
+        //Membuat harga rupiah dan dengan format titik yang benar
+        holder.tvHarga.text = NumberFormat.getCurrencyInstance(Locale("in","ID")).format(Integer.valueOf(data[position].harga))
+//        holder.imgProduk.setImageResource(data[position].gambar)
+
+        val image = "http://192.168.0.104/PawPetshop/public/storage/produk/" + data[position].image
+        //libary picasso
+        Picasso.get()
+            .load(image)
+            .placeholder(R.drawable.product)
+            .error(R.drawable.product)
+            .into(holder.imgProduk)
 
     }
 }
