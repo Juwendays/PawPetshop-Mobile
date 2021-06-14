@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pawpetshop.R
+import com.example.pawpetshop.adapter.AdapterKeranjang
 import com.example.pawpetshop.adapter.AdapterProduk
 import com.example.pawpetshop.room.MyDatabase
 
@@ -32,7 +33,7 @@ class KeranjangFragment : Fragment(){
         val layoutManager = LinearLayoutManager(activity)
         layoutManager.orientation = LinearLayoutManager.VERTICAL
 
-        rvProduk.adapter = AdapterProduk(requireActivity(), listProduk)
+        rvProduk.adapter = AdapterKeranjang(requireActivity(), listProduk)
         rvProduk.layoutManager = layoutManager
     }
 

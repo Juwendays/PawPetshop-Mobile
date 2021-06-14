@@ -1,8 +1,10 @@
 package com.example.pawpetshop.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.pawpetshop.R
 import com.example.pawpetshop.helper.Helper
@@ -35,7 +37,14 @@ class DetailProdukActivity: AppCompatActivity() {
     // tombol keranjang
     fun mainButton(){
         btn_keranjang.setOnClickListener {
-            insert()
+            // Manipulasi agar barang di keranjang tetap satu hanya bertambah jumlahnya jika beli lebih dari 2
+            val data = myDb.daoKeranjang().getProduk(produk.id)
+            if (data == null){
+                insert()
+            }else{
+                data.jumlah = data.jumlah+1
+                update(data)
+            }
         }
 
         //CEK
@@ -47,8 +56,13 @@ class DetailProdukActivity: AppCompatActivity() {
                 println(note.harga)
             }
         }
+
+        btn_toKeranjang.setOnClickListener{
+//            startActivity(Intent(this, ))
+        }
     }
 
+    // Fungsi Menambah ke keranjang dari detail produk
     private fun insert(){
         CompositeDisposable().add(Observable.fromCallable { myDb.daoKeranjang().insert(produk) }
             .subscribeOn(Schedulers.computation())
@@ -56,6 +70,18 @@ class DetailProdukActivity: AppCompatActivity() {
             .subscribe {
                 checkkeranjang()
                 Log.d("respons", "data inserted")
+                Toast.makeText(this, "Berhasil ditambah ke Keranjang", Toast.LENGTH_SHORT).show()
+            })
+    }
+
+    private fun update(data:Produk){
+        CompositeDisposable().add(Observable.fromCallable { myDb.daoKeranjang().update(data) }
+            .subscribeOn(Schedulers.computation())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                checkkeranjang()
+                Log.d("respons", "data inserted")
+                Toast.makeText(this, "Berhasil ditambah ke Keranjang", Toast.LENGTH_SHORT).show()
             })
     }
 

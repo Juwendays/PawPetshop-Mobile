@@ -14,7 +14,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@color/colorPrimaryDark" />
+                android:background="@color/dark" />
 
         <LinearLayout
                 android:layout_width="match_parent"
@@ -40,7 +40,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:gravity="center"
-                    android:text="PROFILE"
+                    android:text="Account"
                     android:textColor="@color/white"
                     android:textSize="20sp" />
 
@@ -48,7 +48,7 @@
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_marginTop="20dp"
-                    android:src="@drawable/ic_profile" />
+                    android:src="@drawable/ic_person_pin_black_24dp" />
 
             <TextView
                     android:id="@+id/tv_nama"
