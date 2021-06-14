@@ -58,7 +58,7 @@ class HomeFragment : Fragment(){
             val adapterSlider = AdapterSlider(arrSlider, activity)
             vpSlider.adapter = adapterSlider
 
-            rvProduk.adapter = AdapterProduk(listProduk)
+            rvProduk.adapter = AdapterProduk(requireActivity(), listProduk)
             rvProduk.layoutManager = layoutManager
 //
 //            rvProdukTerlaris.adapter = AdapterProduk(arrProdukTerlaris)

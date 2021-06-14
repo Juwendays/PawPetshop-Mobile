@@ -32,6 +32,7 @@ class SharedPref(activity: Activity) {
         return sp.getBoolean(login, false)
     }
 
+    // Mengubah model menjadi string
     fun setUser(value: User) {
         val data: String = Gson().toJson(value, User::class.java)
         sp.edit().putString(user, data).apply()
