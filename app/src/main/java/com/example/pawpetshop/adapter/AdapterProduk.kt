@@ -1,6 +1,5 @@
 package com.example.pawpetshop.adapter
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
@@ -16,8 +15,6 @@ import com.example.pawpetshop.helper.Helper
 import com.example.pawpetshop.model.Produk
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso
-import java.text.NumberFormat
-import java.util.*
 import kotlin.collections.ArrayList
 
 class AdapterProduk(var activity: Context, var data: ArrayList<Produk>) : RecyclerView.Adapter<AdapterProduk.Holder>() {
