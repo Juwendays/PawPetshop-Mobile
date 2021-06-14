@@ -42,7 +42,7 @@ class AdapterProduk(var activity: Context, var data: ArrayList<Produk>) : Recycl
         holder.tvNama.text = data[position].name
 
         //Membuat harga rupiah dan dengan format titik yang benar
-        holder.tvHarga.text = Helper().gantiRupiah(data[position].image)
+        holder.tvHarga.text = Helper().gantiRupiah(data[position].harga)
 
 //      holder.imgProduk.setImageResource(data[position].gambar)
         val image = "http://192.168.0.104/PawPetshop/public/storage/produk/" + data[position].image
