@@ -2,6 +2,7 @@ package com.example.pawpetshop.activity
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.example.pawpetshop.R
 import com.example.pawpetshop.helper.Helper
@@ -14,19 +15,21 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_detail_produk.*
-import kotlinx.android.synthetic.main.toolbar.*
+import kotlinx.android.synthetic.main.toolbar_custom.*
 
 class DetailProdukActivity: AppCompatActivity() {
 
+    lateinit var myDb: MyDatabase
     lateinit var produk : Produk
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
             setContentView(R.layout.activity_detail_produk)
 
+            myDb = MyDatabase.getInstance(this)!! // call database
             getInfo()
             mainButton()
+            checkkeranjang()
         }
 
     // tombol keranjang
@@ -37,9 +40,8 @@ class DetailProdukActivity: AppCompatActivity() {
 
         //CEK
         btn_favorit.setOnClickListener {
-            val myDb: MyDatabase = MyDatabase.getInstance(this)!! // call database
-            val listNote = myDb.daoKeranjang().getAll() // get All data atau memanggil querynya
-            for(note :Produk in listNote){
+            val listData = myDb.daoKeranjang().getAll() // get All data atau memanggil querynya
+            for(note :Produk in listData){
                 println("-----------------------")
                 println(note.name)
                 println(note.harga)
@@ -47,17 +49,28 @@ class DetailProdukActivity: AppCompatActivity() {
         }
     }
 
-    fun insert(){
-        val myDb: MyDatabase = MyDatabase.getInstance(this)!! // call database
+    private fun insert(){
         CompositeDisposable().add(Observable.fromCallable { myDb.daoKeranjang().insert(produk) }
             .subscribeOn(Schedulers.computation())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
+                checkkeranjang()
                 Log.d("respons", "data inserted")
             })
     }
 
-    fun getInfo(){
+    private fun checkkeranjang(){
+        var datakeranjang = myDb.daoKeranjang().getAll()
+        if(datakeranjang.isNotEmpty()){
+            div_angka.visibility = View.VISIBLE
+            tv_angka.text = datakeranjang.size.toString()
+        }
+        else{
+            div_angka.visibility = View.GONE
+        }
+    }
+
+    private fun getInfo(){
         val data = intent.getStringExtra("extra")
         produk = Gson().fromJson<Produk>(data, Produk::class.java)
 
@@ -79,14 +92,14 @@ class DetailProdukActivity: AppCompatActivity() {
             .into(image)
 
         // Set toolbar detail produk
-        setSupportActionBar(toolbar)
+        setSupportActionBar(toolbar_custom)
         supportActionBar!!.title = produk.name
         supportActionBar!!.setDisplayShowHomeEnabled(true)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        //kembali kehome saat di detail produk
+        //fungsi tombol kembali kehome saat di detail produk
         onBackPressed()
         return super.onSupportNavigateUp()
     }
