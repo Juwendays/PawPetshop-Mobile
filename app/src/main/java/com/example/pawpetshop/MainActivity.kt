@@ -101,9 +101,10 @@ class MainActivity : AppCompatActivity() {
     }
     
     override fun onResume(){
-        if (dariDetail)
+        if (dariDetail) {
             dariDetail = false
-            callFargment( 1, fragmentKeranjang)
+            callFargment(1, fragmentKeranjang)
+        }
         super.onResume()
     }
 }
