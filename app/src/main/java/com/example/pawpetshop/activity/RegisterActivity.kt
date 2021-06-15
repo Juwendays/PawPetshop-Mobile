@@ -38,10 +38,10 @@ class RegisterActivity: AppCompatActivity() {
     }
 
     fun dataDummy() {
-        edt_nama.setText("Tisto")
-        edt_email.setText("tisto@gmail.com")
-        edt_phone.setText("018029839021")
-        edt_password.setText("12345678")
+        edt_nama.setText("alvin")
+        edt_email.setText("alvin24@gmail.com")
+        edt_phone.setText("018029809021")
+        edt_password.setText("alvin123")
     }
 
     fun register() {
