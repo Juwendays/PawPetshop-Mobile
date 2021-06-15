@@ -13,30 +13,34 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.pawpetshop.R
 import com.example.pawpetshop.adapter.AdapterKeranjang
 import com.example.pawpetshop.adapter.AdapterProduk
+import com.example.pawpetshop.helper.Helper
 import com.example.pawpetshop.room.MyDatabase
 
 class KeranjangFragment : Fragment(){
 
+    lateinit var myDb : MyDatabase
+
     // display produk dipanggil sekali ketika activity aktif,karena fragment berada di dalam activity disebut LifeCycle
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view: View = inflater.inflate(R.layout.fragment_keranjang, container, false)
-
         init(view)
+        myDb = MyDatabase.getInstance(requireActivity())!!
+
+
         mainButton()
         displayProduk()
         return view
     }
 
     private fun displayProduk(){
-        val myDb = MyDatabase.getInstance(requireActivity())
-        val listProduk = myDb!!.daoKeranjang().getAll() as ArrayList
+        val listProduk = myDb.daoKeranjang().getAll() as ArrayList
 
         val layoutManager = LinearLayoutManager(activity)
         layoutManager.orientation = LinearLayoutManager.VERTICAL
 
         rvProduk.adapter = AdapterKeranjang(requireActivity(), listProduk, object: AdapterKeranjang.Listeners{
             override fun onUpdate() {
-                Log.d("onUpdate", "call this")
+                hitungTotal()
             }
 
             override fun onDelete() {
@@ -45,6 +49,16 @@ class KeranjangFragment : Fragment(){
 
         })
         rvProduk.layoutManager = layoutManager
+    }
+
+    fun hitungTotal(){
+        val listProduk = myDb.daoKeranjang().getAll() as ArrayList
+        var totalHarga = 0
+        for (produk in listProduk){
+            val harga = Integer.valueOf(produk.harga)
+            totalHarga += (harga * produk.jumlah)
+        }
+        tvTotal.text = Helper().gantiRupiah(totalHarga)
     }
 
     private fun mainButton(){
