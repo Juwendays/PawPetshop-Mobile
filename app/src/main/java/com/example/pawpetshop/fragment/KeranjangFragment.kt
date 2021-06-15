@@ -1,6 +1,7 @@
 package com.example.paw_petshop.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,7 +34,16 @@ class KeranjangFragment : Fragment(){
         val layoutManager = LinearLayoutManager(activity)
         layoutManager.orientation = LinearLayoutManager.VERTICAL
 
-        rvProduk.adapter = AdapterKeranjang(requireActivity(), listProduk)
+        rvProduk.adapter = AdapterKeranjang(requireActivity(), listProduk, object: AdapterKeranjang.Listeners{
+            override fun onUpdate() {
+                Log.d("onUpdate", "call this")
+            }
+
+            override fun onDelete() {
+                Log.d("onDelete", "call this")
+            }
+
+        })
         rvProduk.layoutManager = layoutManager
     }
 

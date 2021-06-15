@@ -11,6 +11,7 @@ import com.example.pawpetshop.R
 import com.example.pawpetshop.helper.Helper
 import com.example.pawpetshop.model.Produk
 import com.example.pawpetshop.room.MyDatabase
+import com.example.pawpetshop.util.Config
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso
 import io.reactivex.Observable
@@ -111,7 +112,7 @@ class DetailProdukActivity: AppCompatActivity() {
         tv_harga.text = Helper().gantiRupiah(produk.harga)
         tv_deskripsi.text = produk.deskripsi
 
-        val img = "http://192.168.0.104/PawPetshop/public/storage/produk/" + produk.image
+        val img = Config.productUrl + produk.image
         //libary picasso
         Picasso.get()
             .load(img)

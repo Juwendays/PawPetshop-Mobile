@@ -17,6 +17,7 @@ import com.example.pawpetshop.activity.DetailProdukActivity
 import com.example.pawpetshop.helper.Helper
 import com.example.pawpetshop.model.Produk
 import com.example.pawpetshop.room.MyDatabase
+import com.example.pawpetshop.util.Config
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso
 import io.reactivex.Observable
@@ -25,7 +26,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlin.collections.ArrayList
 
-class AdapterKeranjang(var activity: Context, var data: ArrayList<Produk>) : RecyclerView.Adapter<AdapterKeranjang.Holder>() {
+class AdapterKeranjang(var activity: Context, var data: ArrayList<Produk>,var listener : Listeners) : RecyclerView.Adapter<AdapterKeranjang.Holder>() {
 
     class Holder(view: View) : RecyclerView.ViewHolder(view) {
         val tvNama = view.findViewById<TextView>(R.id.tv_nama)
@@ -66,7 +67,7 @@ class AdapterKeranjang(var activity: Context, var data: ArrayList<Produk>) : Rec
         holder.tvJumlah.text = jumlah.toString()
 
 //      holder.imgProduk.setImageResource(data[position].gambar)
-        val image = "http://192.168.0.104/PawPetshop/public/storage/produk/" + data[position].image
+        val image = Config.productUrl + data[position].image
         //libary picasso
         Picasso.get()
             .load(image)
@@ -114,10 +115,14 @@ class AdapterKeranjang(var activity: Context, var data: ArrayList<Produk>) : Rec
 
         // Tampilan penghapusan pada keranjang
         holder.btnDelete.setOnClickListener {
-            notifyItemRemoved(position)
             delete(produk)
         }
     }
+
+        interface Listeners{
+            fun onUpdate()
+            fun onDelete()
+        }
 
         // Fungsi agar penambah dan pengurangan terupadate atau tersimpan
         private fun update(data: Produk) {
@@ -126,7 +131,7 @@ class AdapterKeranjang(var activity: Context, var data: ArrayList<Produk>) : Rec
             .subscribeOn(Schedulers.computation())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
-
+                listener.onUpdate()
             })
         }
 
@@ -137,7 +142,7 @@ class AdapterKeranjang(var activity: Context, var data: ArrayList<Produk>) : Rec
             .subscribeOn(Schedulers.computation())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
-
+                listener.onDelete()
             })
     }
 

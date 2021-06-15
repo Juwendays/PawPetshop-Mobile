@@ -13,6 +13,7 @@ import com.example.pawpetshop.R
 import com.example.pawpetshop.activity.DetailProdukActivity
 import com.example.pawpetshop.helper.Helper
 import com.example.pawpetshop.model.Produk
+import com.example.pawpetshop.util.Config
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso
 import kotlin.collections.ArrayList
@@ -42,7 +43,7 @@ class AdapterProduk(var activity: Context, var data: ArrayList<Produk>) : Recycl
         holder.tvHarga.text = Helper().gantiRupiah(data[position].harga)
 
 //      holder.imgProduk.setImageResource(data[position].gambar)
-        val image = "http://192.168.0.104/PawPetshop/public/storage/produk/" + data[position].image
+        val image = Config.productUrl + data[position].image
         //libary picasso
         Picasso.get()
             .load(image)
