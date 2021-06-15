@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.pawpetshop.R
 import com.example.pawpetshop.helper.Helper
 import com.example.pawpetshop.model.Produk
@@ -42,7 +43,7 @@ class DetailProdukActivity: AppCompatActivity() {
             if (data == null){
                 insert()
             }else{
-                data.jumlah = data.jumlah+1
+                data.jumlah += 1
                 update(data)
             }
         }
@@ -58,7 +59,9 @@ class DetailProdukActivity: AppCompatActivity() {
         }
 
         btn_toKeranjang.setOnClickListener{
-//            startActivity(Intent(this, ))
+            val intent = Intent("event:keranjang")
+            LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
+            onBackPressed()
         }
     }
 

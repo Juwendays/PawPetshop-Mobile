@@ -54,13 +54,16 @@ class LoginActivity : AppCompatActivity() {
                 pb.visibility = View.GONE
                 val respon = response.body()!!
                 if (respon.success == 1) {
+                    //jika berhasil login
                     s.setStatusLogin(true)
                     s.setUser(respon.user)
 //                    s.setString(s.nama, respon.user.name)
 //                    s.setString(s.phone, respon.user.phone)
 //                    s.setString(s.email, respon.user.email)
 
+                    //Kembali ke menu home setelah login
                     val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                    // Mendestroy agar setelah berhasil login tidak kembali ke halaman login
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
                     startActivity(intent)
                     finish()

@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.pawpetshop.MainActivity
 import com.example.pawpetshop.R
 import com.example.pawpetshop.app.ApiConfig
-
 import com.example.pawpetshop.helper.SharedPref
 import com.example.pawpetshop.model.ResponModel
 import kotlinx.android.synthetic.main.activity_register.*

@@ -2,20 +2,27 @@ package com.example.pawpetshop.adapter
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pawpetshop.R
 import com.example.pawpetshop.activity.DetailProdukActivity
 import com.example.pawpetshop.helper.Helper
 import com.example.pawpetshop.model.Produk
+import com.example.pawpetshop.room.MyDatabase
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import kotlin.collections.ArrayList
 
 class AdapterKeranjang(var activity: Context, var data: ArrayList<Produk>) : RecyclerView.Adapter<AdapterKeranjang.Holder>() {
@@ -32,6 +39,7 @@ class AdapterKeranjang(var activity: Context, var data: ArrayList<Produk>) : Rec
 
         val checkBox = view.findViewById<CheckBox>(R.id.checkBox)
         val tvJumlah = view.findViewById<TextView>(R.id.tv_jumlah)
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
@@ -44,6 +52,10 @@ class AdapterKeranjang(var activity: Context, var data: ArrayList<Produk>) : Rec
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
+
+        val produk = data[position]
+
+
         holder.tvNama.text = data[position].name
 
         //Membuat harga rupiah dan dengan format titik yang benar
@@ -62,18 +74,71 @@ class AdapterKeranjang(var activity: Context, var data: ArrayList<Produk>) : Rec
             .error(R.drawable.product)
             .into(holder.imgProduk)
 
-        holder.layout.setOnClickListener {
-            val activiti = Intent(activity, DetailProdukActivity::class.java)
+        // Holder di Nonaktifkan karena tambah diarahkan ke detail produk
+//        holder.layout.setOnClickListener {
+//            val activiti = Intent(activity, DetailProdukActivity::class.java)
+//
+//            //membawa informasi dari satu activity ke acticity lain dengan lebih efektif
+//            val str = Gson().toJson(data[position], Produk::class.java)
+//            activiti.putExtra("extra", str )
+//
+//            //membawa informasi dari satu activity ke acticity lain
+////            activiti.putExtra("nama", data[position].name )
+////            activiti.putExtra("harga", data[position].harga )
+//
+//            activity.startActivity(activiti)
+//        }
 
-            //membawa informasi dari satu activity ke acticity lain dengan lebih efektif
-            val str = Gson().toJson(data[position], Produk::class.java)
-            activiti.putExtra("extra", str )
+        // Tampilan penmabhan pada keranjang
+        holder.btnTambah.setOnClickListener {
+            //Pencegahan agar penambahan tidak lebih dari jumlah stok misal stok = 10
+            //if (jumlah >= 10) return@setOnClickListener
+            jumlah++
+            //pemanggilan fungsi update
+            produk.jumlah = jumlah
+            update(produk)
+            holder.tvJumlah.text = jumlah.toString()
+        }
 
-            //membawa informasi dari satu activity ke acticity lain
-//            activiti.putExtra("nama", data[position].name )
-//            activiti.putExtra("harga", data[position].harga )
+        // Tampilan pengurangan pada keranjang
+        holder.btnKurang.setOnClickListener {
+            //Pencegahan agar pengurangan tidak kurang dari 1
+            if (jumlah <= 1) return@setOnClickListener
+            jumlah--
+            //pemanggilan fungsi update
+            produk.jumlah = jumlah
+            update(produk)
+            holder.tvJumlah.text = jumlah.toString()
 
-            activity.startActivity(activiti)
+        }
+
+        // Tampilan penghapusan pada keranjang
+        holder.btnDelete.setOnClickListener {
+            notifyItemRemoved(position)
+            delete(produk)
         }
     }
-}
+
+        // Fungsi agar penambah dan pengurangan terupadate atau tersimpan
+        private fun update(data: Produk) {
+        val myDb = MyDatabase.getInstance(activity)
+        CompositeDisposable().add(Observable.fromCallable { myDb!!.daoKeranjang().update(data) }
+            .subscribeOn(Schedulers.computation())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+
+            })
+        }
+
+    // Fungsi agar penambah dan pengurangan terupadate atau tersimpan
+        private fun delete(data: Produk) {
+        val myDb = MyDatabase.getInstance(activity)
+        CompositeDisposable().add(Observable.fromCallable { myDb!!.daoKeranjang().delete(data) }
+            .subscribeOn(Schedulers.computation())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+
+            })
+    }
+
+    }
