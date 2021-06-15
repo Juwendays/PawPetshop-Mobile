@@ -1,24 +1,19 @@
 package com.example.pawpetshop.adapter
 
 import android.content.Context
-import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pawpetshop.R
-import com.example.pawpetshop.activity.DetailProdukActivity
 import com.example.pawpetshop.helper.Helper
 import com.example.pawpetshop.model.Produk
 import com.example.pawpetshop.room.MyDatabase
 import com.example.pawpetshop.util.Config
-import com.google.gson.Gson
 import com.squareup.picasso.Picasso
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -121,12 +116,13 @@ class AdapterKeranjang(var activity: Context, var data: ArrayList<Produk>,var li
         // Tampilan penghapusan pada keranjang
         holder.btnDelete.setOnClickListener {
             delete(produk)
+            listener.onDelete(position)
         }
     }
 
         interface Listeners{
             fun onUpdate()
-            fun onDelete()
+            fun onDelete(position: Int)
         }
 
         // Fungsi agar penambah dan pengurangan terupadate atau tersimpan
@@ -147,7 +143,6 @@ class AdapterKeranjang(var activity: Context, var data: ArrayList<Produk>,var li
             .subscribeOn(Schedulers.computation())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
-                listener.onDelete()
             })
     }
 
