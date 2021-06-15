@@ -57,10 +57,14 @@ class KeranjangFragment : Fragment(){
 
     fun hitungTotal(){
         val listProduk = myDb.daoKeranjang().getAll() as ArrayList
+
         var totalHarga = 0
-        for (produk in listProduk){
-            val harga = Integer.valueOf(produk.harga)
-            totalHarga += (harga * produk.jumlah)
+        for (produk in listProduk) {
+            //jika checkbox diselect baru dihitung
+            if (produk.selected) {
+                val harga = Integer.valueOf(produk.harga)
+                totalHarga += (harga * produk.jumlah)
+            }
         }
         tvTotal.text = Helper().gantiRupiah(totalHarga)
     }

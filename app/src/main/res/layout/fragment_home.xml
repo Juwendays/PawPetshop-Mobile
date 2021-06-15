@@ -103,7 +103,7 @@
                         android:layout_margin="10dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Produk Terlaris"/>
+                        android:text="Food"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rv_produkTerlasir"
@@ -126,7 +126,7 @@
                         android:layout_margin="10dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Food"/>
+                        android:text="Accesories"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rv_food"

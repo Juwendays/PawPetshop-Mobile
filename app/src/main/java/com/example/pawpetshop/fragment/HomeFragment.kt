@@ -58,11 +58,11 @@ class HomeFragment : Fragment(){
             rvProduk.adapter = AdapterProduk(requireActivity(), listProduk)
             rvProduk.layoutManager = layoutManager
 //
-//            rvProdukTerlaris.adapter = AdapterProduk(arrProdukTerlaris)
-//            rvProdukTerlaris.layoutManager = layoutManager2
-//
-//            rvFood.adapter = AdapterProduk(arrFood)
-//            rvFood.layoutManager = layoutManager3
+            rvProdukTerlaris.adapter = AdapterProduk(requireActivity(), listProduk)
+            rvProdukTerlaris.layoutManager = layoutManager2
+
+            rvFood.adapter = AdapterProduk(requireActivity(), listProduk)
+            rvFood.layoutManager = layoutManager3
 
         }
 

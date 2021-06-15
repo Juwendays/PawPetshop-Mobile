@@ -61,6 +61,14 @@ class AdapterKeranjang(var activity: Context, var data: ArrayList<Produk>,var li
         var jumlah = data[position].jumlah
         holder.tvJumlah.text = jumlah.toString()
 
+        // Membuat checkbox automatis kecentang saat masuk keranjang
+        holder.checkBox.isChecked = produk.selected
+        holder.checkBox.setOnCheckedChangeListener { buttonView, isChecked ->
+
+            produk.selected = isChecked
+            update(produk)
+        }
+
 //      holder.imgProduk.setImageResource(data[position].gambar)
         val image = Config.productUrl + data[position].image
         //libary picasso
