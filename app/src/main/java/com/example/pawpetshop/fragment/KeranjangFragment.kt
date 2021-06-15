@@ -83,6 +83,8 @@ class KeranjangFragment : Fragment(){
 
     override fun onResume() {
         displayProduk()
+        hitungTotal()
         super.onResume()
+
     }
 }

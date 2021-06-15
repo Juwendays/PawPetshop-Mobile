@@ -55,12 +55,12 @@ class AdapterKeranjang(var activity: Context, var data: ArrayList<Produk>,var li
     override fun onBindViewHolder(holder: Holder, position: Int) {
 
         val produk = data[position]
-
+        val harga = Integer.valueOf(produk.harga)
 
         holder.tvNama.text = data[position].name
 
         //Membuat harga rupiah dan dengan format titik yang benar
-        holder.tvHarga.text = Helper().gantiRupiah(data[position].harga)
+        holder.tvHarga.text = Helper().gantiRupiah(harga * produk.jumlah)
 
         //Membuat Penambahan kuantity barang di keranjang
         var jumlah = data[position].jumlah
@@ -98,7 +98,10 @@ class AdapterKeranjang(var activity: Context, var data: ArrayList<Produk>,var li
             //pemanggilan fungsi update
             produk.jumlah = jumlah
             update(produk)
+
             holder.tvJumlah.text = jumlah.toString()
+            holder.tvHarga.text = Helper().gantiRupiah(harga * jumlah).toString()
+
         }
 
         // Tampilan pengurangan pada keranjang
@@ -109,7 +112,9 @@ class AdapterKeranjang(var activity: Context, var data: ArrayList<Produk>,var li
             //pemanggilan fungsi update
             produk.jumlah = jumlah
             update(produk)
+
             holder.tvJumlah.text = jumlah.toString()
+            holder.tvHarga.text = Helper().gantiRupiah(harga * jumlah).toString()
 
         }
 
