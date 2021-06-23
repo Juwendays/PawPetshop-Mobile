@@ -1,5 +1,6 @@
 package com.example.paw_petshop.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pawpetshop.R
+import com.example.pawpetshop.activity.PengirimanActivity
 import com.example.pawpetshop.adapter.AdapterKeranjang
 import com.example.pawpetshop.helper.Helper
 import com.example.pawpetshop.model.Produk
@@ -82,7 +84,7 @@ class KeranjangFragment : Fragment(){
 
         }
         btnBayar.setOnClickListener{
-
+            startActivity(Intent(requireActivity(), PengirimanActivity::class.java))
         }
         cbAll.setOnClickListener{
             for (i in listProduk.indices){
