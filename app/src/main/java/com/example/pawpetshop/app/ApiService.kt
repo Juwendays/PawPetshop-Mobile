@@ -28,4 +28,8 @@ interface ApiService {
     @GET("produk") // "http://192.168.0.104/api/login/"
     fun getProduk(
     ): Call<ResponModel>
+
+    @GET("provinsi")
+    fun getProvinsi(
+    ): Call<ResponModel>
 }

@@ -13,7 +13,7 @@ class ListAlamatActivity: AppCompatActivity() {
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
             setContentView(R.layout.activity_list_alamat)
-            Helper().setToolbar(this, toolbar,"List Alamat")
+            Helper().setToolbar(this, toolbar,"Pilih Alamat")
 
             mainButton()
         }
