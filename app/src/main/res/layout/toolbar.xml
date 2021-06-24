@@ -7,7 +7,7 @@
     tools:context=".activity.DetailProdukActivity">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar_nocustom"
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:theme="@style/ThemeOverlay.AppCompat.Dark"

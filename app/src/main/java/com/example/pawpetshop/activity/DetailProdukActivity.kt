@@ -121,7 +121,7 @@ class DetailProdukActivity: AppCompatActivity() {
             .resize(400,400)
             .into(image)
 
-        // Set toolbar detail produk
+        // Set toolbar_nocustom detail produk
         Helper().setToolbar(this, toolbar, produk.name)
     }
 
