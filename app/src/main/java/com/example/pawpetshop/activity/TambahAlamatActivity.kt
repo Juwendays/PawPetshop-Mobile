@@ -40,7 +40,7 @@ class TambahAlamatActivity: AppCompatActivity() {
 
     private fun mainButton(){
         btn_simpan.setOnClickListener {
-
+            simpan()
         }
     }
 
@@ -107,7 +107,7 @@ class TambahAlamatActivity: AppCompatActivity() {
             Toast.makeText(this, string, Toast.LENGTH_SHORT).show()
         }
 
-    fun error(editText: EditText){
+    private fun error(editText: EditText){
         editText.error = "Kolom tidak boleh kosong"
         editText.requestFocus()
     }
@@ -130,8 +130,9 @@ class TambahAlamatActivity: AppCompatActivity() {
                     val res = response.body()!!
                     val arryString = ArrayList<String>()
                     arryString.add("Pilih Provinsi")
+
                     val listProvinsi = res.provinsi
-                    for (prov in res.provinsi){
+                    for (prov in listProvinsi){
                         arryString.add(prov.nama)
                     }
 
@@ -223,8 +224,8 @@ class TambahAlamatActivity: AppCompatActivity() {
                     val listArray = res.kecamatan
                     val arryString = ArrayList<String>()
                     arryString.add("Pilih Kecamatan")
-                    for (prov in listArray){
-                        arryString.add(prov.nama)
+                    for (data in listArray){
+                        arryString.add(data.nama)
                     }
 
                     val adapter = ArrayAdapter<Any>(this@TambahAlamatActivity, R.layout.item_spinner, arryString.toTypedArray())
@@ -238,9 +239,7 @@ class TambahAlamatActivity: AppCompatActivity() {
                         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                             if (position != 0) {
                                 kecamatan = listArray[position - 1]
-                                val idKota = listArray[position - 1].id
-                                Log.d("respon", "Kota id:" + idKota + " " + "name:" +listArray[position - 1].nama)
-                                getKecamatan(idKota)
+
                             }
                         }
                     }
