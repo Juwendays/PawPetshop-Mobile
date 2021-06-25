@@ -2,10 +2,7 @@ package com.example.pawpetshop.app
 
 import com.example.pawpetshop.model.ResponModel
 import retrofit2.Call
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.GET
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface ApiService {
 
@@ -31,5 +28,15 @@ interface ApiService {
 
     @GET("provinsi")
     fun getProvinsi(
+    ): Call<ResponModel>
+
+    @GET("kota")
+    fun getKota(
+        @Query("id_provinsi") id: Int
+    ): Call<ResponModel>
+
+    @GET("kecamatan")
+    fun getKecamatan(
+        @Query("id_kota") id: Int
     ): Call<ResponModel>
 }
